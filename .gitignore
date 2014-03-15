@@ -1,0 +1,15 @@
+/bin
+/checkouts
+/classes
+/out
+/repl
+/resources/public/js
+/target
+pom.xml
+pom.xml.asc
+*.jar
+*.class
+.lein-deps-sum
+.lein-failures
+.lein-plugins
+.lein-repl-history
