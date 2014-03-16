@@ -7,7 +7,10 @@
                  [org.clojure/clojurescript "0.0-2069"]
                  [compojure "1.1.6"]
                  [domina "1.0.3-SNAPSHOT"]
-                 [hiccups "0.2.0"] ]  
+                 [hiccups "0.2.0"]
+                 [org.clojars.magomimmo/shoreleave-remote-ring "0.3.1-SNAPSHOT"]
+                 [org.clojars.magomimmo/shoreleave-remote "0.3.1-SNAPSHOT"] ]  
+  
   
   ;; CLJ AND CLJS source code path
   :source-paths ["src/clj" "src/cljs" "src/brepl"]
@@ -56,5 +59,5 @@
                                  :pretty-print false }}}}
                     
   
-  :ring {:handler modern-cljs.core/handler} )
+  :ring {:handler modern-cljs.remotes/app} )
 
