@@ -8,8 +8,8 @@
       (* (+ 1 (/ tax 100)))
       (- discount)))
 
-(defremote title-version []
-  "v10.2" )
+(defremote clj-version []
+  "11.1" )
 
 (def app (-> (var handler)
              (wrap-rpc)

@@ -1,26 +1,41 @@
 (ns modern-cljs.login
-    (:use [domina :only [by-id value]]) )
+  (:require-macros [hiccups.core :refer [html]])
+  (:require [domina :as dom]
+            [domina.events :as ev]
+            [hiccups.runtime :as hiccupsrt]
+            [shoreleave.remotes.http-rpc :refer [remote-callback]] ))
 
-;; define the function to be attached to form submission event
-(defn validate-form []
-  ;; get email and password element from their ids in the HTML form
-  (let [email (by-id "email")
-        password (by-id "password")]
-    (if (and (> (count (value email)) 0)
-             (> (count (value password)) 0))
-      true
-      (do (js/alert "Please, complete the form!")
-          false))))
+(def ^:dynamic *password-re* #"^(?=.*\d).{4,8}$")
+(def ^:dynamic *email-re* #"^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$")
 
-;; define the function to attach validate-form to onsubmit event of
-;; the form
+(defn isa-email? [v]
+  (if (re-matches *email-re* v) true false) )
+
+(defn isa-password? [v]
+  (if (re-matches *password-re* v) true false) )
+
+(defn validate-email [email]
+  (aset (dom/by-id "email-alert-msg") "hidden" (isa-email? (aget email "value"))) )
+
+(defn validate-password [password]
+  (aset (dom/by-id "password-alert-msg") "hidden" (isa-password? (aget password "value"))) )
+
+(defn validate-form [e]
+  (when (some false? (list (validate-email    (dom/by-id "email"))
+                           (validate-password (dom/by-id "password")) ))
+    (ev/prevent-default e) ))
+
 (defn ^:export init []
-  ;; verify that js/document exists and that it has a getElementById
-  ;; property
-  (if (and js/document
-           (.-getElementById js/document))
-    ;; get loginForm by element id and set its onsubmit property to
-    ;; our validate-form function
-    (let [login-form (by-id "loginForm")]
-      (set! (.-onsubmit login-form) validate-form))))
+  (when (and js/document
+             (aget js/document "getElementById"))
+    (ev/listen! (dom/by-id "submit") :click validate-form)
+    (let [email    (dom/by-id "email")
+          password (dom/by-id "password")]
+      (ev/listen! email    :blur (fn [evt] (validate-email email)))
+      (ev/listen! password :blur (fn [evt] (validate-password password))) )
+    ;; version infos
+    (dom/set-text! (dom/by-id "cljs-version") "version CLJS 11.5")
+    (remote-callback :clj-version []
+                     #(dom/set-text! (dom/by-id "clj-version") (str "version CLJ " %)) )))
+
 
