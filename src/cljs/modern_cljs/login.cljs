@@ -21,8 +21,9 @@
   (aset (dom/by-id "password-alert-msg") "hidden" (isa-password? (aget password "value"))) )
 
 (defn validate-form [e]
-  (when (some false? (list (validate-email    (dom/by-id "email"))
-                           (validate-password (dom/by-id "password")) ))
+  (when (some false? [(validate-email    (dom/by-id "email"))
+                      ;(validate-password (dom/by-id "password"))
+                      ])
     (ev/prevent-default e) ))
 
 (defn ^:export init []
@@ -32,7 +33,8 @@
     (let [email    (dom/by-id "email")
           password (dom/by-id "password")]
       (ev/listen! email    :blur (fn [evt] (validate-email email)))
-      (ev/listen! password :blur (fn [evt] (validate-password password))) )
+      ;(ev/listen! password :blur (fn [evt] (validate-password password)))
+      )
     ;; version infos
     (dom/set-text! (dom/by-id "cljs-version") "version CLJS 11.5")
     (remote-callback :clj-version []
