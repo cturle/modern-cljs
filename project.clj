@@ -8,8 +8,9 @@
                  [compojure "1.1.6"]
                  [domina "1.0.3-SNAPSHOT"]
                  [hiccups "0.2.0"]
+                 [com.cemerick/valip "0.3.2"]
                  [org.clojars.magomimmo/shoreleave-remote-ring "0.3.1-SNAPSHOT"]
-                 [org.clojars.magomimmo/shoreleave-remote "0.3.1-SNAPSHOT"] ]  
+                 [org.clojars.magomimmo/shoreleave-remote "0.3.1-SNAPSHOT"] ]
   
   
   ;; CLJ AND CLJS source code path
@@ -20,7 +21,8 @@
             [lein-ring "0.8.8"] ]  
   
   ;; cljsbuild options configuration
-  :cljsbuild {:builds
+  :cljsbuild {:crossovers [valip.core valip.predicates modern-cljs.login.validators]
+              :builds
               {:dev {;; CLJS source code path
                      :source-paths ["src/brepl" "src/cljs"]
                      

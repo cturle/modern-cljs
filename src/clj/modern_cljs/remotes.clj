@@ -9,7 +9,7 @@
       (- discount)))
 
 (defremote clj-version []
-  "11.1" )
+  "13.1" )
 
 (def app (-> (var handler)
              (wrap-rpc)
