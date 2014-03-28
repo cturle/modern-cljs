@@ -1,10 +1,12 @@
 # modern-cljs
 
-A Clojure library designed to ... well, that part is up to you.
+My sandbox Clojure project about following "modern-cljs" 
 
 ## Usage
 
-FIXME
+Personnal repo of my step by step "modern-cljs"
+
+cf : [original modern-cljs](https://github.com/magomimmo/modern-cljs)
 
 ## License
 
